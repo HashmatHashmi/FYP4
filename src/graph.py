@@ -23,8 +23,9 @@ class AgentState(TypedDict):
     confidence: float
 
     risks: list
-
+    risk_details: list   # NEW
     report: str
+
     
 
 # Extraction Node  
@@ -89,21 +90,30 @@ def risk_node(state):
     }
     
 # Report Node
-def report_node(state):
+# def report_node(state):
 
-    report = generate_report(
+#     report = generate_report(
+#         state["document_type"],
+#         state["confidence"],
+#         state["summary"],
+#         state["risks"]
+#     )
+
+#     save_report(report)
+
+#     return {
+#         "report": report
+#     }
+def report_node(state):
+    report, risk_details = generate_report(
         state["document_type"],
         state["confidence"],
         state["summary"],
-        state["risks"]
+        state["risks"],
     )
-
     save_report(report)
+    return {"report": report, "risk_details": risk_details}
 
-    return {
-        "report": report
-    }
-    
 # Build Graph
 graph = StateGraph(AgentState)
 
@@ -128,12 +138,14 @@ graph.add_edge("report", END)
 app = graph.compile()
 
 # Run Ftn
+# def analyze_pdf(pdf_path):
+
+#     result = app.invoke({
+
+#         "pdf_path": pdf_path
+
+#     })
+
+#     return result["report"]
 def analyze_pdf(pdf_path):
-
-    result = app.invoke({
-
-        "pdf_path": pdf_path
-
-    })
-
-    return result["report"]
+    return app.invoke({"pdf_path": pdf_path})
