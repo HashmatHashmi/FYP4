@@ -1,3 +1,5 @@
+from transformers import pipeline
+
 import re
 
 def analyze_risks(text):

@@ -1,3 +1,5 @@
+from transformers import pipeline
+
 draft_model = pipeline(
     "text2text-generation",
     model="google/flan-t5-base"  # swap to "google/flan-t5-small" if memory errors return
