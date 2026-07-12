@@ -1,0 +1,11 @@
+streamlit
+transformers==4.44.2
+torch
+torchvision
+pdfplumber
+langgraph
+langchain
+langchain-core
+reportlab
+sentencepiece
+accelerate 
