@@ -396,22 +396,57 @@ def drafting_agent(clause, risk_level):
                        f"same order they appear — do not swap, remove, "
                        f"duplicate, or rename them.\n")
 
-    prompt = f"""You are an expert legal drafting assistant.
+#     prompt = f"""You are an expert legal drafting assistant.
 
-Rewrite ONLY the following legal clause so it is safer and more balanced.
+# Rewrite ONLY the following legal clause so it is safer and more balanced.
 
-Requirements:
-- Preserve the original meaning and intent.
-- Reduce legal risk and remove one-sided language.
-- Use clear, professional legal language.
-{party_note}- Return ONLY the revised clause text. No explanations, no labels, no quotes.
+# Requirements:
+# - Preserve the original meaning and intent.
+# - Reduce legal risk and remove one-sided language.
+# - Use clear, professional legal language.
+# {party_note}- Return ONLY the revised clause text. No explanations, no labels, no quotes.
 
-Risk Level: {risk_level}
+# Risk Level: {risk_level}
 
-Clause:
+# Clause:
+# {masked_clause}
+
+# Revised Clause:"""
+#################################################################
+    prompt = f"""
+You are an experienced legal contract drafting assistant.
+
+Your task is to rewrite ONLY the clause below.
+
+Instructions:
+
+- Preserve the legal meaning.
+- Preserve all important facts.
+- Preserve the parties exactly as written.
+- Do NOT invent new obligations.
+- Do NOT remove legal obligations.
+- Reduce one-sided or unfair language where possible.
+- Make the clause clearer and more balanced.
+- If the clause is already acceptable, rewrite it only for clarity.
+- Return ONLY one rewritten clause.
+- Never return explanations.
+- Never return bullet points.
+- Never return headings.
+- Never return "Revised Clause".
+- Never answer with "I cannot..."
+- Never answer with placeholders.
+
+{party_note}
+
+Risk Level:
+{risk_level}
+
+Original Clause:
 {masked_clause}
 
-Revised Clause:"""
+Rewritten Clause:
+"""
+#################################################################
 
     output = _generate(prompt)
 
